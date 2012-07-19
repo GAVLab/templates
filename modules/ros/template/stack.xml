@@ -1,0 +1,16 @@
+<stack>
+  <name>{project_name}</name>
+  <version>0.0</version>
+  <description brief="REPLACE_ME with a breif description">REPLACE_ME with a longer description</description>
+  <maintainer email="{email}">{author}</maintainer>
+  <license>{license_type}</license>
+  <copyright>{organization}</copyright>
+
+  <url>REPLACE_ME with a url</url>
+
+  <build_depends>roscpp</build_depends>
+  <build_depends>std_msgs</build_depends>
+
+  <depends>roscpp</depends>
+  <depends>std_msgs</depends>
+</stack>

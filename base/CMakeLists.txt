@@ -5,26 +5,23 @@ project({project_name})
 
 ## Configurations
 
-include(cmake/{project_name}_settings.cmake)
-{include_hook}
+include(cmake/{project_name}_settings.cmake){cmake_include_hook}
 
 ## Configure the build system
 
 # Add the include folder to the include path
 include_directories(${{PROJECT_SOURCE_DIR}}/include)
 
-# Add default source files
+# Set the source files, headers, and link libraries
 set({project_name_caps}_SRCS src/{project_name}.cc)
-# Add default header files
 set({project_name_caps}_HEADERS include/{project_name}/{project_name}.h)
-# Set link libraries
 set({project_name_caps}_LINK_LIBS )
 
-## Build the Serial Library
+## Build the {project_name} project
 
 # Compile the Library
 add_library({project_name} ${{{project_name_caps}_SRCS}})
-target_link_libraries({project_name} ${{{project_name_caps}_LINK_LIBS}})
+target_link_libraries({project_name} ${{{project_name_caps}_LINK_LIBS}}){cmake_post_library_hook}
 
 ## Build Examples
 

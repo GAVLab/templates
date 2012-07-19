@@ -1,5 +1,5 @@
 # ROS install file for this unary stack
 [
 # This stack
-{{local-name: '{project_name}', uri: '{repo_uri}', version: '{repo_version}'}}{rosinstall_hook}
+- git: {{local-name: '{project_name}', uri: 'REPLACE_ME with a uri', version: 'REPLACE_ME with a version'}}{rosinstall_hook}
 ]

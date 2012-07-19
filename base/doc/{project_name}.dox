@@ -10,8 +10,7 @@ This is the landing page of your auto-generated documentation.
 
 Ready to jump in?
 - This is how you do bullets
-- This is how you reference the examples: \ref serial_example.cc
-- This is how you reference class documentation: \ref serial::Serial
+- This is how you reference class documentation: \ref {project_name}::{project_name_camel}
 
 \section install Installation
 

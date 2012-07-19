@@ -21,7 +21,42 @@ def comment_license(license, prefix=" * "):
     commented_license += (prefix+line+'\n')
   return commented_license
 
-def create_project(options):
+def get_module_path(module):
+  return os.path.join(this_dir, 'modules', module)
+
+def get_module_hooks(subs, module):
+  hooks_dir = os.path.join(get_module_path(module), 'hooks')
+  for root, dirs, files in os.walk(hooks_dir):
+    for file_name in files:
+      sub = file_name.split('.')[0]
+      if sub in subs:
+        subs[sub] += open(os.path.join(root, file_name), 'r').read()
+      else:
+        subs[sub] = open(os.path.join(root, file_name), 'r').read()
+  return subs
+
+def walk_module_template(module, output_dir, subs):
+  template_dir = os.path.join(get_module_path(module), 'template')
+  for root, dirs, files in os.walk(template_dir):
+    rel_path = os.path.relpath(root, template_dir)
+    if not os.path.exists(os.path.join(output_dir, rel_path.format(**subs))):
+      os.makedirs(os.path.join(output_dir, rel_path.format(**subs)))
+    for file_name in files:
+      # Read the file contents
+      file_contents = open(os.path.join(root, file_name), 'r').read()
+      try:
+        # Substitute the file name
+        file_name_sub = file_name.format(**subs)
+        subs['this_file'] = file_name_sub
+        # Substitute the contents
+        file_contents = file_contents.format(**subs)
+      except KeyError as e:
+        print("Missing key `{}` in file `{}`".format(str(e), os.path.join(root, file_name)))
+        return
+      # Write the new contents to the desitnation
+      open(os.path.join(output_dir, rel_path.format(**subs), file_name_sub), 'w+').write(file_contents)
+
+def create_project(options, modules):
   # Create subs
   subs = {}
   subs['project_name'] = options.project_name.lower()
@@ -33,10 +68,14 @@ def create_project(options):
   subs['email'] = options.email
   from datetime import date
   subs['year'] = str(date.today().year)
+  subs['license_type'] = options.license
   subs['license'] = get_license_by_name(options.license)
   subs['license_commented'] = comment_license(subs['license'])
   subs['organization'] = options.organization
-  subs['include_hook'] = ''
+  subs['cmake_include_hook'] = ''
+
+  for module in modules:
+    subs = get_module_hooks(subs, module)
 
   # Recursively replace
   for key in subs.keys():
@@ -68,6 +107,10 @@ def create_project(options):
         return
       # Write the new contents to the desitnation
       open(os.path.join(output_dir, rel_path.format(**subs), file_name_sub), 'w+').write(file_contents)
+
+  # Integrate module templates
+  for module in modules:
+    walk_module_template(module, output_dir, subs)
 
 def main():
   parser = OptionParser()
@@ -109,7 +152,7 @@ def main():
     print("Organization required")
     parser.print_help()
     return
-  create_project(options)
+  create_project(options, modules=['ros'])
 
 if __name__ == '__main__':
   main()
