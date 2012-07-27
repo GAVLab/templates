@@ -1,5 +1,5 @@
 ## Project Setup
-cmake_minimum_required(VERSION 2.4.6)
+cmake_minimum_required(VERSION 2.6)
 
 project({project_name})
 
@@ -21,7 +21,7 @@ set({project_name_caps}_LINK_LIBS )
 
 # Compile the Library
 add_library({project_name} ${{{project_name_caps}_SRCS}})
-target_link_libraries({project_name} ${{{project_name_caps}_LINK_LIBS}}){cmake_post_library_hook}
+target_link_libraries({project_name} ${{{project_name_caps}_LINK_LIBS}})
 
 ## Build Examples
 
@@ -33,7 +33,7 @@ include(cmake/{project_name}_examples.cmake)
 
 set({project_name_caps}_TEST_SRCS tests/{project_name}_tests.cc)
 set({project_name_caps}_TEST_LINK_LIBS {project_name})
-include(cmake/{project_name}_tests.cmake)
+include(cmake/{project_name}_tests.cmake){cmake_post_library_hook}
 
 ## Setup Install/Uninstall Targets
 

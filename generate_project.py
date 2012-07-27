@@ -73,6 +73,12 @@ def create_project(options, modules):
   subs['license_commented'] = comment_license(subs['license'])
   subs['organization'] = options.organization
   subs['cmake_include_hook'] = ''
+  subs['header_hook_1'] = ''
+  subs['header_hook_2'] = ''
+  subs['header_hook_3'] = ''
+  subs['header_public_hook'] = ''
+  subs['header_private_hook'] = ''
+  subs['cmake_post_library_hook'] = ''
 
   for module in modules:
     subs = get_module_hooks(subs, module)
@@ -152,7 +158,7 @@ def main():
     print("Organization required")
     parser.print_help()
     return
-  create_project(options, modules=['ros'])
+  create_project(options, modules=[])
 
 if __name__ == '__main__':
   main()

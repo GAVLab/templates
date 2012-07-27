@@ -14,18 +14,18 @@
  */
 
 #ifndef {project_name_caps}_H
-#define {project_name_caps}_H
+#define {project_name_caps}_H{header_hook_1}
 
-namespace {project_name} {{
+namespace {project_name} {{{header_hook_2}
   /*!
    * Class description
    */
   class {project_name_camel} {{
   public:
     {project_name_camel} ();
-    ~{project_name_camel} ();
+    ~{project_name_camel} ();{header_public_hook}
 
-  private:
+  private:{header_private_hook}
 
   }};
 }}
